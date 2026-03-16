@@ -1,0 +1,85 @@
+version: '3.8'
+
+x-logging:
+  &default-logging
+  driver: "json-file"
+  options:
+    max-size: "10m"
+    max-file: "3"
+
+services:
+  # 1. Message Broker: Redpanda
+  redpanda:
+    image: docker.redpanda.com/redpandadata/redpanda:v23.2.19
+    container_name: iot_redpanda
+    command:
+      - redpanda
+      - start
+      - --overprovisioned
+      - --smp 1
+      - --memory 1G
+      - --reserve-memory 0M
+      - --node-id 0
+      - --check=false
+    ports:
+      - "9092:9092"
+      - "9644:9644"
+    volumes:
+      - redpanda_data:/var/lib/redpanda/data
+    networks:
+      - iot_network
+    logging: *default-logging
+
+  # 2. Data Warehouse: ClickHouse
+  clickhouse:
+    image: clickhouse/clickhouse-server:24.1-alpine
+    container_name: iot_clickhouse
+    ports:
+      - "8123:8123"
+      - "9000:9000"
+    environment:
+      CLICKHOUSE_DB: iot_telemetry 
+      CLICKHOUSE_USER: iot_admin
+      CLICKHOUSE_PASSWORD: iot_password
+      CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT: 1
+    volumes:
+      - clickhouse_data:/var/lib/clickhouse
+      - ./clickhouse/init-db:/docker-entrypoint-initdb.d/
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+    networks:
+      - iot_network
+    logging: *default-logging
+
+  # 3. Monitoring & Visualization: Grafana
+  grafana:
+    image: grafana/grafana:10.4.0
+    container_name: iot_grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_INSTALL_PLUGINS=grafana-clickhouse-datasource
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+    networks:
+      - iot_network
+    depends_on:
+      - clickhouse
+    logging: *default-logging
+
+networks:
+  iot_network:
+    driver: bridge
+
+volumes:
+  redpanda_data:
+  clickhouse_data:
+  grafana_data:

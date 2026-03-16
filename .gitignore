@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+
+# dbt
+dbt_project/target/
+dbt_project/dbt_packages/
+dbt_project/logs/
+
+# Docker & Data (Bỏ qua dữ liệu local nếu bạn có mount volume)
+docker/data/
+docker/redpanda/
+docker/clickhouse/
+
+# OS generated files
+.DS_Store
+Thumbs.db

@@ -1,0 +1,12 @@
+iot_clickhouse_profile:
+  target: dev
+  outputs:
+    dev:
+      type: clickhouse
+      host: localhost
+      port: 8123
+      user: iot_admin        
+      password: iot_password
+      schema: iot_telemetry 
+      secure: False
+      connect_timeout: 10

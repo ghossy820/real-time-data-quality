@@ -1,0 +1,31 @@
+version: 2
+
+sources:
+  - name: clickhouse_raw
+    description: "Nguồn dữ liệu gốc từ ClickHouse, do luồng Bytewax nạp vào"
+    database: iot_telemetry
+    tables:
+      - name: iot_telemetry_clean
+        description: "Bảng lưu trữ dữ liệu đo lường đã qua bước lọc sơ bộ"
+        columns:
+          - name: device_id
+            description: "Mã thiết bị"
+            tests:
+              - not_null
+          
+          - name: event_timestamp
+            description: "Thời gian ghi nhận sự kiện"
+            tests:
+              - not_null
+          
+          - name: is_valid_record
+            description: "Cờ logic định danh dữ liệu chuẩn"
+            tests:
+              - accepted_values:
+                  values: [0, 1]
+      
+      - name: iot_telemetry_error
+        description: "Bảng DLQ chứa các bản ghi bị Bytewax từ chối"
+        columns:
+          - name: event_timestamp
+            description: "Thời gian nhận bản ghi lỗi"

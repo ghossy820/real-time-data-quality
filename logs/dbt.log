@@ -1,0 +1,30 @@
+[0m22:49:36.942024 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f89fd86bee0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f89fc718b80>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f89fc718b20>]}
+
+
+============================== 22:49:36.944624 | 03b8af13-1a1d-4799-ae03-07256237f9a0 ==============================
+[0m22:49:36.944624 [info ] [MainThread]: Running with dbt=1.11.7
+[0m22:49:36.945059 [debug] [MainThread]: running dbt with arguments {'quiet': 'False', 'warn_error': 'None', 'version_check': 'True', 'log_format': 'default', 'partial_parse': 'True', 'introspect': 'True', 'write_json': 'True', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'indirect_selection': 'eager', 'no_print': 'None', 'fail_fast': 'False', 'static_parser': 'True', 'invocation_command': 'dbt init', 'use_colors': 'True', 'log_path': 'logs', 'empty': 'None', 'debug': 'False', 'target_path': 'None', 'log_cache_events': 'False', 'printer_width': '80', 'cache_selected_only': 'False', 'send_anonymous_usage_stats': 'True', 'profiles_dir': '/home/ghossy82011/.dbt', 'use_experimental_parser': 'False'}
+[0m22:53:01.992865 [error] [MainThread]: Encountered an error:
+
+[0m22:53:01.996694 [error] [MainThread]: Traceback (most recent call last):
+  File "/home/ghossy82011/.local/lib/python3.10/site-packages/dbt/cli/requires.py", line 182, in wrapper
+    result, success = func(*args, **kwargs)
+  File "/home/ghossy82011/.local/lib/python3.10/site-packages/dbt/cli/requires.py", line 128, in wrapper
+    return func(*args, **kwargs)
+  File "/home/ghossy82011/.local/lib/python3.10/site-packages/dbt/cli/main.py", line 483, in init
+    results = task.run()
+  File "/home/ghossy82011/.local/lib/python3.10/site-packages/dbt/task/init.py", line 324, in run
+    project_name = self.get_valid_project_name()
+  File "/home/ghossy82011/.local/lib/python3.10/site-packages/dbt/task/init.py", line 278, in get_valid_project_name
+    name = click.prompt("Enter a name for your project (letters, digits, underscore)")
+  File "/home/ghossy82011/.local/lib/python3.10/site-packages/click/termui.py", line 171, in prompt
+    value = prompt_func(prompt)
+  File "/home/ghossy82011/.local/lib/python3.10/site-packages/click/termui.py", line 154, in prompt_func
+    raise Abort() from None
+click.exceptions.Abort
+
+[0m22:53:02.002426 [debug] [MainThread]: Resource report: {"command_name": "init", "command_success": false, "command_wall_clock_time": 205.42198, "process_in_blocks": "17496", "process_kernel_time": 0.113965, "process_mem_max_rss": "95560", "process_out_blocks": "16", "process_user_time": 0.880286}
+[0m22:53:02.004254 [debug] [MainThread]: Command `dbt init` failed at 22:53:02.003948 after 205.42 seconds
+[0m22:53:02.005066 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f89fd86bee0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f89fc719ba0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x7f89fc7176a0>]}
+[0m22:53:02.005626 [debug] [MainThread]: Flushing usage events
+[0m22:53:03.112363 [debug] [MainThread]: An error was encountered while trying to flush usage events
