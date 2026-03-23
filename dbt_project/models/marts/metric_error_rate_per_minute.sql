@@ -20,7 +20,6 @@ error_events_aggregated AS (
     GROUP BY metric_minute
 ),
 
--- Gộp chung 2 tập dữ liệu
 combined_metrics AS (
     SELECT * FROM clean_events_aggregated
     UNION ALL
